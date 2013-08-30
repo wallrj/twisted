@@ -9,4 +9,4 @@ python:
 # the dependencies.
 install: pip install --editable .
 # Run local trial
-script: ./bin/trial twisted.names.test
+script: python setup.py test --test-suite=twisted.names.test
