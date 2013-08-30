@@ -8,5 +8,6 @@ python:
 # Twisted doesn't have a requirements file so install in place to get
 # the dependencies.
 install: pip install --editable .
-# Run local trial
-script: python setup.py test --test-suite=twisted.names.test
+
+# Run ./bin/trial or ./admin/run-python3-tests via setuptools
+script: python setup.py test --test-suite=twisted
