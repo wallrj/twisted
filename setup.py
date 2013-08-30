@@ -33,7 +33,7 @@ class TravisTest(TestCommand):
                 args = ['trial', '--reporter=text', 'twisted.names.test']
 
         elif testType == 'pyflakes':
-            testRunner = 'pyflakes'
+            testRunner = '../../bin/pyflakes'
             args = ['pyflakes', 'twisted']
 
         elif testType == 'twistedchecker':
@@ -45,8 +45,11 @@ class TravisTest(TestCommand):
                 'ERROR: UNKNOWN TESTTYPE. %r\n\nENV: %r\n' % (testType, os.environ))
             sys.exit(1)
 
+        sys.stderr.write(
+            'TEST_ENVIRONMENT: %r\n\n' % (os.environ,))
+
         sys.stdout.write(
-            'TEST_COMMAND: %r, TEST_ARGS: %r\n' % (testRunner, args))
+            'TEST_COMMAND: %r, TEST_ARGS: %r\n\n' % (testRunner, args))
         os.execv(testRunner, args)
 
 
