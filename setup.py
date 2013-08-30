@@ -24,6 +24,7 @@ class TravisTest(TestCommand):
     def run(self):
         pythonVersion = os.environ.get('TRAVIS_PYTHON_VERSION', '2')
         testType = os.environ.get('TEST_TYPE', 'trial')
+        virtualEnvPath = os.environ.get('VIRTUAL_ENV', '')
         if testType == 'trial':
             if pythonVersion.startswith('3'):
                 testRunner = './admin/run-python3-tests'
@@ -33,11 +34,11 @@ class TravisTest(TestCommand):
                 args = ['trial', '--reporter=text', 'twisted.names.test']
 
         elif testType == 'pyflakes':
-            testRunner = '../../bin/pyflakes'
+            testRunner = os.path.join(virtualEnvPath, 'bin', 'pyflakes')
             args = ['pyflakes', 'twisted']
 
         elif testType == 'twistedchecker':
-            testRunner = 'twistedchecker'
+            testRunner = os.path.join(virtualEnvPath, 'bin', 'twistedchecker')
             args = ['twistedchecker', 'twisted']
 
         else:
@@ -49,8 +50,18 @@ class TravisTest(TestCommand):
             'TEST_ENVIRONMENT: %r\n\n' % (os.environ,))
 
         sys.stdout.write(
+            'TEST_CWD: %r\n\n' % (os.getcwd()))
+
+        sys.stdout.write(
             'TEST_COMMAND: %r, TEST_ARGS: %r\n\n' % (testRunner, args))
-        os.execv(testRunner, args)
+
+        if os.path.exists(testRunner):
+            os.execv(testRunner, args)
+        else:
+            sys.stderr.write(
+                'ERROR: Test runner not found. %r\n\n\n' % (testRunner,))
+            sys.exit(1)
+
 
 
 
