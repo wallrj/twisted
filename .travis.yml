@@ -1,9 +1,10 @@
 language: python
 python:
-# Twisted currently uses a separate test runner for Python3
-#  - "3.3"
+  - "3.3"
+  - "pypy"
   - "2.7"
   - "2.6"
+
 # Twisted doesn't have a requirements file so install in place to get
 # the dependencies.
 install: pip install --editable .

@@ -16,6 +16,21 @@ except ImportError:
 import os
 import sys
 
+from setuptools.command.test import test as TestCommand
+
+
+
+class TwistedTest(TestCommand):
+    def run_tests(self):
+        pythonVersion = os.environ.get('TRAVIS_PYTHON_VERSION', '2')
+
+        if pythonVersion.startswith('3'):
+            testRunner = './admin/run-python3-tests'
+        else:
+            testRunner = './bin/trial'
+        os.execv(testRunner, self.test_args)
+
+
 
 def main(args):
     """
@@ -54,6 +69,7 @@ dependency resolution is disabled.
         conditionalExtensions=getExtensions(),
         scripts=scripts,
         data_files=getDataFiles('twisted'),
+        cmdclass={'test': TwistedTest},
         **STATIC_PACKAGE_METADATA))
 
     setup(**setup_args)
