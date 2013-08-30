@@ -6,6 +6,6 @@ python:
   - "2.6"
 # Twisted doesn't have a requirements file so install in place to get
 # the dependencies.
-install: pip install --editable
+install: pip install --editable .
 # Run local trial
 script: ./bin/trial twisted.names.test
