@@ -21,15 +21,14 @@ from setuptools.command.test import test as TestCommand
 
 
 class TwistedTest(TestCommand):
-    def run_tests(self):
+    def run(self):
         pythonVersion = os.environ.get('TRAVIS_PYTHON_VERSION', '2')
-
         if pythonVersion.startswith('3'):
             testRunner = './admin/run-python3-tests'
-            args = []
+            args = ['run-python3-tests']
         else:
             testRunner = './bin/trial'
-            args = ['--exitfirst', 'twisted']
+            args = ['trial', '--reporter=text', 'twisted']
         os.execv(testRunner, args)
 
 
