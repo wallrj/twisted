@@ -1,13 +1,19 @@
 language: python
 python:
-#  - "3.3"
+  - "3.3"
 #  - "pypy"
   - "2.7"
 #  - "2.6"
 
-# Twisted doesn't have a requirements file so install in place to get
-# the dependencies.
-install: pip install --editable .
 
-# Run ./bin/trial or ./admin/run-python3-tests via setuptools
+env:
+  - TEST_TYPE=pyflakes
+  - TEST_TYPE=twistedchecker
+
+install:
+  - pip install pyflakes
+  - pip install twistedchecker
+  - pip install coverage
+  - pip install --editable .
+
 script: python setup.py travistest
