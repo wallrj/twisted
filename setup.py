@@ -20,15 +20,33 @@ from setuptools.command.test import test as TestCommand
 
 
 
-class TwistedTest(TestCommand):
+class TravisTest(TestCommand):
     def run(self):
         pythonVersion = os.environ.get('TRAVIS_PYTHON_VERSION', '2')
-        if pythonVersion.startswith('3'):
-            testRunner = './admin/run-python3-tests'
-            args = ['run-python3-tests']
+        testType = os.environ.get('TEST_TYPE', 'trial')
+        if testType == 'trial':
+            if pythonVersion.startswith('3'):
+                testRunner = './admin/run-python3-tests'
+                args = ['run-python3-tests']
+            else:
+                testRunner = './bin/trial'
+                args = ['trial', '--reporter=text', 'twisted']
+
+        elif testType == 'pyflakes':
+            testRunner = 'pyflakes'
+            args = ['pyflakes', 'twisted']
+
+        elif testType == 'twistedchecker':
+            testRunner = 'twistedchecker'
+            args = ['twistedchecker', 'twisted']
+
         else:
-            testRunner = './bin/trial'
-            args = ['trial', '--reporter=text', 'twisted']
+            sys.stderr.write(
+                'ERROR: UNKNOWN TESTTYPE. %r\n\nENV: %r\n' % (testType, os.environ))
+            sys.exit(1)
+
+        sys.stdout.write(
+            'TEST_COMMAND: %r, TEST_ARGS: %r\n' % (testRunner, args))
         os.execv(testRunner, args)
 
 
@@ -70,7 +88,7 @@ dependency resolution is disabled.
         conditionalExtensions=getExtensions(),
         scripts=scripts,
         data_files=getDataFiles('twisted'),
-        cmdclass={'test': TwistedTest},
+        cmdclass={'travistest': TravisTest},
         **STATIC_PACKAGE_METADATA))
 
     setup(**setup_args)
