@@ -26,9 +26,11 @@ class TwistedTest(TestCommand):
 
         if pythonVersion.startswith('3'):
             testRunner = './admin/run-python3-tests'
+            args = []
         else:
             testRunner = './bin/trial'
-        os.execv(testRunner, self.test_args)
+            args = ['--exitfirst', 'twisted']
+        os.execv(testRunner, args)
 
 
 
