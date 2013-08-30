@@ -12,11 +12,17 @@ env:
 
 
 matrix:
-  exclude:
-    - python: 3.3
+  exclude: [{}]
+
+  include:
+    - python: 2.7
       env: TEST_TYPE=pyflakes
+    - python: 2.7
+      env: TEST_TYPE=trial
     - python: 2.6
-      env: TEST_TYPE=pyflakes
+      env: TEST_TYPE=trial
+    - python: 3.3
+      env: TEST_TYPE=trial
 
 
 install:
