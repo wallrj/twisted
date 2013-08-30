@@ -9,10 +9,11 @@ python:
 env:
   - TEST_TYPE=pyflakes
   - TEST_TYPE=twistedchecker
+  - TEST_TYPE=trial
 
 install:
   - pip install pyflakes
-  - pip install twistedchecker
+#  - pip install twistedchecker
   - pip install coverage
   - pip install --editable .
 

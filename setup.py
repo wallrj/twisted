@@ -30,7 +30,7 @@ class TravisTest(TestCommand):
                 args = ['run-python3-tests']
             else:
                 testRunner = './bin/trial'
-                args = ['trial', '--reporter=text', 'twisted']
+                args = ['trial', '--reporter=text', 'twisted.names.test']
 
         elif testType == 'pyflakes':
             testRunner = 'pyflakes'
