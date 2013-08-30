@@ -1,7 +1,7 @@
 language: python
 python:
   - "3.3"
-#  - "pypy"
+#  - "pypy" # too slow
   - "2.7"
   - "2.6"
 
@@ -13,7 +13,7 @@ env:
 
 install:
   - pip install pyflakes
-#  - pip install twistedchecker
+#  - pip install twistedchecker # won't install
   - pip install coverage
   - pip install --editable .
 
@@ -29,5 +29,5 @@ matrix:
       env: TEST_TYPE=trial
     - python: 2.7
       env: TEST_TYPE=pyflakes
-    - python: 2.7
-      env: TEST_TYPE=twistedchecker
+    # - python: 2.7
+    #   env: TEST_TYPE=twistedchecker
